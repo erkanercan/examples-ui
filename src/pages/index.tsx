@@ -21,12 +21,12 @@ const Home: NextPage = () => {
   }, [query]);
 
   useEffect(() => {
-    if (account && library) {
+    if (account && library && query.lpStakingContractAddress) {
       const tempSDK = new LPStakingSDK({
         lpStakingContractAddress: query.lpStakingContractAddress as string,
         signer: library.getSigner(),
         network: DefaultSupportedNetworks.Rinkeby,
-        provider: DefaultSupportedProviders.Alchemy,
+        provider: DefaultSupportedProviders.Infura,
       });
       setLPSDK(tempSDK);
     }
@@ -46,7 +46,7 @@ const Home: NextPage = () => {
       </p>
       <ul>
         <li>
-          {adminAddress && <span>Admin Address: {adminAddress}</span>}
+          {adminAddress && adminAddress}
           <button
             onClick={async () => {
               const adminAddress = (await lpSDK?.getAdmin()) as string;
